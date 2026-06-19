@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+.yarn/
+.pnp.*
+
+# Rust / Anchor build output
+target/
+**/*.rs.bk
+Cargo.lock.bak
+
+# Solana keypairs & secrets (NEVER commit)
+*-keypair.json
+id.json
+.env
+.env.local
+serveur.txt
+
+# Client build
+client/dist/
+client/.vite/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
