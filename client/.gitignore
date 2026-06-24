@@ -1,0 +1,12 @@
+.idea
+node_modules
+.DS_Store
+yarn.lock
+test.html
+dist
+.env
+
+# Cloudflare Tunnel credentials
+cloudflared/*.json
+cloudflared/*.pem
+cloudflared/cert.pem

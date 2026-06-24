@@ -1,0 +1,55 @@
+{
+  "name": "bomberman.js",
+  "version": "2.0.0",
+  "description": "TypeScript implementation of Bomberman with Vite",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "server:install": "cd server && npm install",
+    "server:dev": "cd server && npm run dev",
+    "server:build": "cd server && npm run build",
+    "server:start": "cd server && npm run start",
+    "docker:update": "docker-compose build --no-cache server && docker-compose up -d --no-deps server",
+    "docker:start": "docker-compose up -d server",
+    "docker:stop": "docker-compose stop server",
+    "docker:logs": "docker-compose logs -f server",
+    "docker:tunnel": "docker-compose up -d cloudflared && docker-compose logs -f cloudflared",
+    "multiplayer": "concurrently \"npm run dev\" \"npm run server:dev\""
+  },
+  "keywords": [
+    "bomberman",
+    "game",
+    "canvas",
+    "typescript"
+  ],
+  "author": "Lingelo",
+  "license": "ISC",
+  "dependencies": {
+    "@coral-xyz/anchor": "0.32.1",
+    "@solana/web3.js": "^1.98.0",
+    "buffer": "^6.0.3",
+    "socket.io-client": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "jsdom": "^27.2.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0"
+  }
+}
