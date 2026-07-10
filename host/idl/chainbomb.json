@@ -1,0 +1,1097 @@
+{
+  "address": "5trVxcUHFxajdaawgs2EYCaMGfgC982v9VP8iZx88sWZ",
+  "metadata": {
+    "name": "chainbomb",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "CHAINBOMB on-chain arena"
+  },
+  "instructions": [
+    {
+      "name": "commit",
+      "docs": [
+        "Manual commit of the game state within the ER."
+      ],
+      "discriminator": [
+        223,
+        140,
+        142,
+        165,
+        229,
+        208,
+        156,
+        74
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "match_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "magic_program",
+          "address": "Magic11111111111111111111111111111111111111"
+        },
+        {
+          "name": "magic_context",
+          "writable": true,
+          "address": "MagicContext1111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "create_game",
+      "docs": [
+        "Create (or reset) the shared game account."
+      ],
+      "discriminator": [
+        124,
+        69,
+        75,
+        66,
+        184,
+        220,
+        72,
+        206
+      ],
+      "accounts": [
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "match_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "delegate",
+      "docs": [
+        "Delegate the game account to the Ephemeral Rollup."
+      ],
+      "discriminator": [
+        90,
+        147,
+        75,
+        178,
+        85,
+        88,
+        4,
+        137
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "signer": true
+        },
+        {
+          "name": "buffer_pda",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pda"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                72,
+                183,
+                86,
+                134,
+                196,
+                46,
+                65,
+                61,
+                65,
+                172,
+                173,
+                186,
+                55,
+                157,
+                142,
+                111,
+                47,
+                237,
+                31,
+                221,
+                17,
+                194,
+                151,
+                220,
+                83,
+                94,
+                186,
+                192,
+                93,
+                169,
+                137,
+                34
+              ]
+            }
+          }
+        },
+        {
+          "name": "delegation_record_pda",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pda"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegation_program"
+            }
+          }
+        },
+        {
+          "name": "delegation_metadata_pda",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pda"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegation_program"
+            }
+          }
+        },
+        {
+          "name": "pda",
+          "docs": [
+            "CHECK the game pda to delegate"
+          ],
+          "writable": true
+        },
+        {
+          "name": "owner_program",
+          "address": "5trVxcUHFxajdaawgs2EYCaMGfgC982v9VP8iZx88sWZ"
+        },
+        {
+          "name": "delegation_program",
+          "address": "DELeGGvXpWV2fqJUhqcF5ZSYMS4JTLjteaAMARRSaeSh"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "drop_bomb",
+      "docs": [
+        "Drop a bomb at the player's current cell."
+      ],
+      "discriminator": [
+        41,
+        108,
+        13,
+        182,
+        150,
+        247,
+        113,
+        122
+      ],
+      "accounts": [
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "match_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        },
+        {
+          "name": "color",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "init_arena",
+      "docs": [
+        "Fill breakable walls from a seed and set the arena live (base layer)."
+      ],
+      "discriminator": [
+        24,
+        246,
+        252,
+        176,
+        155,
+        175,
+        123,
+        124
+      ],
+      "accounts": [
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "match_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        },
+        {
+          "name": "seed",
+          "type": "u64"
+        },
+        {
+          "name": "mode",
+          "type": "u8"
+        },
+        {
+          "name": "humans",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "join",
+      "docs": [
+        "Register a player in `color` slot (0..3) with a given session authority.",
+        "The signer (host / funded wallet) pays; `authority` is the player's",
+        "session pubkey that will sign gasless moves in the ER."
+      ],
+      "discriminator": [
+        206,
+        55,
+        2,
+        106,
+        113,
+        220,
+        17,
+        163
+      ],
+      "accounts": [
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "match_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        },
+        {
+          "name": "color",
+          "type": "u8"
+        },
+        {
+          "name": "authority",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "move_player",
+      "docs": [
+        "Move a player one cell (gasless in the ER). Signer must be the authority."
+      ],
+      "discriminator": [
+        17,
+        58,
+        68,
+        221,
+        186,
+        117,
+        140,
+        231
+      ],
+      "accounts": [
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "match_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        },
+        {
+          "name": "color",
+          "type": "u8"
+        },
+        {
+          "name": "dir",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "process_undelegation",
+      "discriminator": [
+        196,
+        28,
+        41,
+        206,
+        48,
+        37,
+        51,
+        167
+      ],
+      "accounts": [
+        {
+          "name": "base_account",
+          "writable": true
+        },
+        {
+          "name": "buffer",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  110,
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  101,
+                  45,
+                  98,
+                  117,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "base_account"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                181,
+                183,
+                0,
+                225,
+                242,
+                87,
+                58,
+                192,
+                204,
+                6,
+                34,
+                1,
+                52,
+                74,
+                207,
+                151,
+                184,
+                53,
+                6,
+                235,
+                140,
+                229,
+                25,
+                152,
+                204,
+                98,
+                126,
+                24,
+                147,
+                128,
+                167,
+                62
+              ]
+            }
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "account_seeds",
+          "type": {
+            "vec": "bytes"
+          }
+        }
+      ]
+    },
+    {
+      "name": "reset_game",
+      "docs": [
+        "Reset a game that is not currently delegated/live."
+      ],
+      "discriminator": [
+        97,
+        146,
+        71,
+        156,
+        110,
+        206,
+        124,
+        224
+      ],
+      "accounts": [
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "match_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "docs": [
+        "Settle: commit final state and undelegate back to Solana."
+      ],
+      "discriminator": [
+        175,
+        42,
+        185,
+        87,
+        144,
+        131,
+        102,
+        212
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "match_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "magic_program",
+          "address": "Magic11111111111111111111111111111111111111"
+        },
+        {
+          "name": "magic_context",
+          "writable": true,
+          "address": "MagicContext1111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "tick",
+      "docs": [
+        "Advance the simulation one tick (gasless in ER; anyone can crank)."
+      ],
+      "discriminator": [
+        92,
+        79,
+        44,
+        8,
+        101,
+        80,
+        63,
+        15
+      ],
+      "accounts": [
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "match_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "match_id",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Game",
+      "discriminator": [
+        27,
+        90,
+        166,
+        125,
+        74,
+        100,
+        121,
+        18
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GameLive",
+      "msg": "Game is live"
+    },
+    {
+      "code": 6001,
+      "name": "NotLobby",
+      "msg": "Game not in lobby"
+    },
+    {
+      "code": 6002,
+      "name": "NotLive",
+      "msg": "Game not live"
+    },
+    {
+      "code": 6003,
+      "name": "BadColor",
+      "msg": "Bad color"
+    },
+    {
+      "code": 6004,
+      "name": "SlotTaken",
+      "msg": "Slot already taken"
+    },
+    {
+      "code": 6005,
+      "name": "NoPlayers",
+      "msg": "No players"
+    },
+    {
+      "code": 6006,
+      "name": "DeadOrEmpty",
+      "msg": "Player dead or empty"
+    },
+    {
+      "code": 6007,
+      "name": "NotAuthority",
+      "msg": "Signer is not the player authority"
+    }
+  ],
+  "types": [
+    {
+      "name": "BlastCell",
+      "serialization": "bytemuck",
+      "repr": {
+        "kind": "c"
+      },
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "x",
+            "type": "u8"
+          },
+          {
+            "name": "y",
+            "type": "u8"
+          },
+          {
+            "name": "life",
+            "type": "u8"
+          },
+          {
+            "name": "_pad",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bomb",
+      "serialization": "bytemuck",
+      "repr": {
+        "kind": "c"
+      },
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timer",
+            "type": "u16"
+          },
+          {
+            "name": "x",
+            "type": "u8"
+          },
+          {
+            "name": "y",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "u8"
+          },
+          {
+            "name": "radius",
+            "type": "u8"
+          },
+          {
+            "name": "active",
+            "type": "u8"
+          },
+          {
+            "name": "_pad",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Game",
+      "serialization": "bytemuck",
+      "repr": {
+        "kind": "c"
+      },
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seed",
+            "type": "u64"
+          },
+          {
+            "name": "tick",
+            "type": "u32"
+          },
+          {
+            "name": "bombs",
+            "type": {
+              "array": [
+                {
+                  "defined": {
+                    "name": "Bomb"
+                  }
+                },
+                12
+              ]
+            }
+          },
+          {
+            "name": "players",
+            "type": {
+              "array": [
+                {
+                  "defined": {
+                    "name": "Player"
+                  }
+                },
+                4
+              ]
+            }
+          },
+          {
+            "name": "blasts",
+            "type": {
+              "array": [
+                {
+                  "defined": {
+                    "name": "BlastCell"
+                  }
+                },
+                48
+              ]
+            }
+          },
+          {
+            "name": "walls",
+            "type": {
+              "array": [
+                "u8",
+                25
+              ]
+            }
+          },
+          {
+            "name": "bonus",
+            "type": {
+              "array": [
+                "u8",
+                25
+              ]
+            }
+          },
+          {
+            "name": "bonus_type",
+            "type": {
+              "array": [
+                "u8",
+                195
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "player_count",
+            "type": "u8"
+          },
+          {
+            "name": "winner",
+            "type": "i8"
+          },
+          {
+            "name": "mode",
+            "type": "u8"
+          },
+          {
+            "name": "humans",
+            "type": "u8"
+          },
+          {
+            "name": "_pad",
+            "type": {
+              "array": [
+                "u8",
+                2
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Player",
+      "serialization": "bytemuck",
+      "repr": {
+        "kind": "c"
+      },
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "x",
+            "type": "u8"
+          },
+          {
+            "name": "y",
+            "type": "u8"
+          },
+          {
+            "name": "dir",
+            "type": "u8"
+          },
+          {
+            "name": "alive",
+            "type": "u8"
+          },
+          {
+            "name": "active",
+            "type": "u8"
+          },
+          {
+            "name": "bomb_max",
+            "type": "u8"
+          },
+          {
+            "name": "bomb_used",
+            "type": "u8"
+          },
+          {
+            "name": "radius",
+            "type": "u8"
+          },
+          {
+            "name": "move_cd",
+            "type": "u8"
+          },
+          {
+            "name": "_pad",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
