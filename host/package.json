@@ -1,0 +1,19 @@
+{
+  "name": "chainbomb-host",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Match orchestrator / crank service for CHAINBOMB (delegation, ER cranking, session bots, room lobbies).",
+  "main": "host.mjs",
+  "scripts": {
+    "start": "node host.mjs"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "0.32.1",
+    "@magicblock-labs/ephemeral-rollups-sdk": "0.14.3",
+    "@solana/web3.js": "^1.95.0",
+    "bn.js": "^5.2.1",
+    "bs58": "^6.0.0",
+    "tweetnacl": "^1.0.3"
+  },
+  "license": "MIT"
+}
