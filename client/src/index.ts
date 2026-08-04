@@ -84,11 +84,15 @@ verifyEl.innerHTML = `
   <div class="vp-modal">
     <button class="vp-close" id="vp-close" aria-label="Close">✕</button>
     <div class="vp-title">ON-CHAIN VERIFICATION</div>
-    <div class="vp-head"><span class="vp-dot"></span> <b id="vp-count">0</b> recent on-chain transactions</div>
+    <div class="vp-head"><span class="vp-dot"></span> <b id="vp-count">0</b> transactions signed this session</div>
     <a class="vp-btn" id="vp-program" target="_blank" rel="noopener"><span class="vp-btn-txt">View the game program on Solana</span><span class="vp-arrow">↗</span></a>
     <a class="vp-btn" id="vp-account" target="_blank" rel="noopener"><span class="vp-btn-txt">View the game account on Solana</span><span class="vp-arrow">↗</span></a>
-    <div class="vp-sub">Recent moves &amp; bombs — click any to open the real transaction</div>
-    <div class="vp-feed" id="vp-feed"><div class="vp-empty">No transactions yet — play a match first.</div></div>
+    <div class="vp-facts">
+      <div class="vp-fact"><span>Network</span><b>Solana Devnet</b></div>
+      <div class="vp-fact"><span>Execution</span><b>MagicBlock Ephemeral Rollup (EU)</b></div>
+      <a class="vp-btn vp-btn-sm" href="https://devnet-eu.magicblock.app/" target="_blank" rel="noopener"><span class="vp-btn-txt">Rollup RPC endpoint</span><span class="vp-arrow">↗</span></a>
+    </div>
+    <div class="vp-note">Every move and bomb is a signed transaction, and all game rules run inside the program — nothing is trusted to a server.</div>
   </div>
 `;
 document.body.appendChild(verifyEl);
@@ -97,44 +101,14 @@ verifyEl.addEventListener('click', (e) => {
     verifyEl.style.display = 'none';
   }
 });
-// Rebuild the feed from the chain (persistent, not session-bound) so recent
-// moves/bombs are always visible — even after a reload or in a fresh tab.
-async function loadVerifyHistory(): Promise<void> {
-  const feedEl = verifyEl.querySelector('#vp-feed')!;
-  const countEl = verifyEl.querySelector('#vp-count')!;
-  // Refresh the account link to the CURRENT match's PDA (it changes per match).
-  (verifyEl.querySelector('#vp-account') as HTMLAnchorElement).href = addrUrl(chain.gamePDA.toBase58());
-  feedEl.innerHTML = '<div class="vp-empty">Loading recent on-chain activity…</div>';
-  // Rich history: each row resolves the action (MOVE/BOMB/tick), the player and
-  // their role (YOU / PLAYER / BOT) straight from the account — not just a sig.
-  const rows = await chain.recentActions(30);
-  feedEl.innerHTML = '';
-  if (!rows.length) {
-    feedEl.innerHTML = '<div class="vp-empty">No transactions yet — play a match first.</div>';
-    return;
-  }
-  countEl.textContent = String(rows.length);
-  for (const r of rows) {
-    const who =
-      r.role === 'SYSTEM'
-        ? 'SYSTEM'
-        : `${chain.nameFor(r.color) || 'P' + (r.color + 1)} · ${r.role}`;
-    const a = document.createElement('a');
-    a.className = 'vp-tx';
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.href = erTxUrl(r.sig);
-    a.innerHTML =
-      `<span class="vp-btn-txt">${r.failed ? '✗' : '✓'} ` +
-      `<b class="vp-kind">${r.kind}</b> · ${who} · ${r.sig.slice(0, 4)}…${r.sig.slice(-4)}` +
-      `</span><span class="vp-arrow">↗</span>`;
-    feedEl.appendChild(a);
-  }
-}
 (window as any).__toggleVerify = () => {
   const opening = verifyEl.style.display !== 'flex';
   verifyEl.style.display = opening ? 'flex' : 'none';
-  if (opening) loadVerifyHistory();
+  if (opening) {
+    // Refresh the account link + session count to the CURRENT match.
+    (verifyEl.querySelector('#vp-account') as HTMLAnchorElement).href = addrUrl(chain.gamePDA.toBase58());
+    verifyEl.querySelector('#vp-count')!.textContent = String(chain.transactionCount);
+  }
 };
 
 // Small live TX feed shown DURING the match (count + recent moves/bombs,
@@ -174,19 +148,8 @@ function setupVerifyPanel(): void {
   (verifyEl.querySelector('#vp-program') as HTMLAnchorElement).href = addrUrl(chain.programId);
   (verifyEl.querySelector('#vp-account') as HTMLAnchorElement).href = addrUrl(chain.gamePDA.toBase58());
   const countEl = verifyEl.querySelector('#vp-count')!;
-  const feedEl = verifyEl.querySelector('#vp-feed')!;
-  chain.onTx((sig, kind) => {
+  chain.onTx(() => {
     countEl.textContent = String(chain.transactionCount);
-    const empty = feedEl.querySelector('.vp-empty');
-    if (empty) empty.remove();
-    const a = document.createElement('a');
-    a.className = 'vp-tx';
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.href = erTxUrl(sig);
-    a.innerHTML = `<span class="vp-btn-txt">${kind} · ${sig.slice(0, 6)}…${sig.slice(-4)}</span><span class="vp-arrow">↗</span>`;
-    feedEl.prepend(a);
-    while (feedEl.childElementCount > 8) feedEl.lastElementChild!.remove();
   });
 }
 setupVerifyPanel();

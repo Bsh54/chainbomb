@@ -382,6 +382,18 @@ canvas {
 }
 .vp-tx:hover { background: #1b1b26; border-color: rgba(167, 139, 250, 0.45); }
 .vp-kind { color: #c8a4ff; font-weight: 700; }
+/* On-chain facts block (replaces the tx feed) */
+.vp-facts { margin-top: 16px; display: flex; flex-direction: column; }
+.vp-fact {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 4px;
+  font-size: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.vp-fact span { color: var(--dim); letter-spacing: 0.02em; }
+.vp-fact b { color: #eef0ff; font-weight: 600; }
+.vp-btn-sm { margin-top: 12px; margin-bottom: 0; padding: 11px 14px; font-size: 0.8rem; }
+.vp-note { margin-top: 18px; font-size: 0.74rem; line-height: 1.55; color: var(--dim); }
 
 /* In-game live tx feed (corner) — moves/bombs streaming on-chain */
 #live-tx {
