@@ -209,7 +209,7 @@ canvas {
 
 /* Three primary title actions — filled neon (same treatment as START),
    distinct accents so they stay readable and hierarchical. */
-.to-b-start, .to-b-mp {
+.to-b-start, .to-b-mp, .to-b-verify {
   font-weight: 700;
   border: none;
   transition: filter 0.16s ease, transform 0.1s ease, box-shadow 0.16s ease;
@@ -224,16 +224,14 @@ canvas {
   background: linear-gradient(180deg, #5fe6ff, var(--neon-cyan));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
-/* Secondary action: keep the base .to-btn (dark, sober) look, just a subtle
-   purple accent so it reads as "on-chain" without competing with the two
-   primary play buttons. */
 .to-b-verify {
-  color: #d6c8ff;
-  border-color: rgba(167, 139, 250, 0.4);
+  color: #150a2c;
+  background: linear-gradient(180deg, #c8a4ff, #a78bfa);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 .to-b-start:hover { background: linear-gradient(180deg, #3dffa0, var(--neon-green)); color: #04130b; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
 .to-b-mp:hover { background: linear-gradient(180deg, #5fe6ff, var(--neon-cyan)); color: #04141a; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
-.to-b-verify:hover { background: #1e1a2c; border-color: #a78bfa; color: #fff; }
+.to-b-verify:hover { background: linear-gradient(180deg, #c8a4ff, #a78bfa); color: #150a2c; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
 .to-b-start:focus-visible, .to-b-mp:focus-visible, .to-b-verify:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 .to-chain {
   border-color: #a78bfa;
@@ -285,7 +283,9 @@ canvas {
 }
 @keyframes su-spin { to { transform: rotate(360deg); } }
 
-/* On-chain verification — a dashboard modal opened from the title screen */
+/* On-chain verification — a full interface opened from the title screen.
+   Not a floating popup: an opaque page with stacked link-buttons, each
+   carrying an oblique ↗ arrow to signal it opens the explorer. */
 #verify-panel {
   position: fixed;
   inset: 0;
@@ -293,73 +293,94 @@ canvas {
   display: none; /* toggled to 'flex' */
   align-items: center;
   justify-content: center;
-  background: rgba(8, 6, 18, 0.72);
-  backdrop-filter: blur(8px);
+  background: radial-gradient(circle at 50% 30%, #16121f 0%, #0a0810 70%);
 }
 .vp-modal {
   position: relative;
-  width: min(460px, 92vw);
-  padding: 26px 26px 22px;
+  display: flex;
+  flex-direction: column;
+  width: min(480px, 92vw);
+  padding: 30px 26px 26px;
   font-family: 'Chakra Petch', sans-serif;
   font-size: 0.85rem;
   color: #cfd3e6;
-  background: linear-gradient(180deg, #14141f, #101018);
-  border: 1px solid rgba(34, 255, 136, 0.35);
-  border-radius: 16px;
-  box-shadow: 0 0 40px -12px rgba(34, 255, 136, 0.5);
-  animation: eg-pop 0.3s ease;
 }
 .vp-close {
-  position: absolute; top: 12px; right: 14px;
+  position: absolute; top: 6px; right: 10px;
   background: transparent; border: none; color: var(--dim);
-  font-size: 1.1rem; cursor: pointer;
+  font-size: 1.3rem; cursor: pointer;
 }
 .vp-close:hover { color: #fff; }
 .vp-title {
   font-family: 'Orbitron', sans-serif; font-weight: 800;
-  font-size: 1.1rem; letter-spacing: 0.14em; color: #fff;
-  text-shadow: 0 0 14px rgba(34, 255, 136, 0.5); margin-bottom: 14px;
+  font-size: 1.3rem; letter-spacing: 0.14em; color: #fff;
+  text-shadow: 0 0 14px rgba(167, 139, 250, 0.5); margin-bottom: 16px;
 }
-.vp-sub { margin: 16px 0 8px; font-size: 0.76rem; color: var(--dim); }
-.vp-empty { font-size: 0.78rem; color: var(--dim); padding: 6px 0; }
+.vp-sub { margin: 20px 0 10px; font-size: 0.76rem; color: var(--dim); }
+.vp-empty { font-size: 0.78rem; color: var(--dim); padding: 8px 0; }
 .vp-head {
   display: flex;
   align-items: center;
   gap: 8px;
   font-weight: 600;
   color: #eef0ff;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
-.vp-head b { color: var(--neon-green); font-size: 1.1rem; }
+.vp-head b { color: #c8a4ff; font-size: 1.1rem; }
 .vp-dot {
   width: 8px; height: 8px; border-radius: 50%;
-  background: var(--neon-green); box-shadow: 0 0 8px var(--neon-green);
+  background: #a78bfa; box-shadow: 0 0 8px #a78bfa;
   animation: to-pulse 1.4s infinite;
 }
-.vp-link {
-  display: block;
-  color: #7cc5ff;
+/* Stacked link-buttons ------------------------------------------------- */
+.vp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 13px 16px;
+  color: #eef0ff;
   text-decoration: none;
-  padding: 3px 0;
-  transition: color 0.15s;
+  background: #171722;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: background 0.16s ease, border-color 0.16s ease, transform 0.1s ease;
 }
-.vp-link:hover { color: #aee0ff; }
+.vp-btn:hover { background: #1e1a2c; border-color: rgba(167, 139, 250, 0.55); }
+.vp-btn:active { transform: translateY(1px); }
+.vp-btn-txt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vp-arrow {
+  flex: none;
+  color: #c8a4ff;
+  font-size: 1rem;
+  line-height: 1;
+}
 .vp-feed {
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 4px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  max-height: 40vh;
+  overflow-y: auto;
 }
+/* Transaction rows reuse the same button pattern, just tighter + monospace */
 .vp-tx {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 14px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.66rem;
-  color: #9aa3bd;
+  font-size: 0.68rem;
+  color: #b9c0d8;
   text-decoration: none;
-  transition: color 0.15s;
+  background: #14141d;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  transition: background 0.16s ease, border-color 0.16s ease;
 }
-.vp-tx:hover { color: var(--neon-green); }
+.vp-tx:hover { background: #1b1b26; border-color: rgba(167, 139, 250, 0.45); }
 
 /* In-game live tx feed (corner) — moves/bombs streaming on-chain */
 #live-tx {

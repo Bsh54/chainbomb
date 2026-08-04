@@ -85,9 +85,9 @@ verifyEl.innerHTML = `
     <button class="vp-close" id="vp-close" aria-label="Close">✕</button>
     <div class="vp-title">ON-CHAIN VERIFICATION</div>
     <div class="vp-head"><span class="vp-dot"></span> <b id="vp-count">0</b> transactions this session</div>
-    <a class="vp-link" id="vp-program" target="_blank" rel="noopener">▸ View the game program on Solana</a>
-    <a class="vp-link" id="vp-account" target="_blank" rel="noopener">▸ View the game account on Solana</a>
-    <div class="vp-sub">Recent moves &amp; bombs (click to open the real transaction):</div>
+    <a class="vp-btn" id="vp-program" target="_blank" rel="noopener"><span class="vp-btn-txt">View the game program on Solana</span><span class="vp-arrow">↗</span></a>
+    <a class="vp-btn" id="vp-account" target="_blank" rel="noopener"><span class="vp-btn-txt">View the game account on Solana</span><span class="vp-arrow">↗</span></a>
+    <div class="vp-sub">Recent moves &amp; bombs — click any to open the real transaction</div>
     <div class="vp-feed" id="vp-feed"><div class="vp-empty">No transactions yet — play a match first.</div></div>
   </div>
 `;
@@ -118,7 +118,7 @@ async function loadVerifyHistory(): Promise<void> {
     a.target = '_blank';
     a.rel = 'noopener';
     a.href = erTxUrl(r.sig);
-    a.textContent = `${r.failed ? '✗' : '✓'} ${r.sig.slice(0, 8)}…${r.sig.slice(-6)} ↗`;
+    a.innerHTML = `<span class="vp-btn-txt">${r.failed ? '✗' : '✓'} ${r.sig.slice(0, 8)}…${r.sig.slice(-6)}</span><span class="vp-arrow">↗</span>`;
     feedEl.appendChild(a);
   }
 }
@@ -175,7 +175,7 @@ function setupVerifyPanel(): void {
     a.target = '_blank';
     a.rel = 'noopener';
     a.href = erTxUrl(sig);
-    a.textContent = `${kind} · ${sig.slice(0, 6)}…${sig.slice(-4)} ↗`;
+    a.innerHTML = `<span class="vp-btn-txt">${kind} · ${sig.slice(0, 6)}…${sig.slice(-4)}</span><span class="vp-arrow">↗</span>`;
     feedEl.prepend(a);
     while (feedEl.childElementCount > 8) feedEl.lastElementChild!.remove();
   });
