@@ -209,7 +209,7 @@ canvas {
 
 /* Three primary title actions — filled neon (same treatment as START),
    distinct accents so they stay readable and hierarchical. */
-.to-b-start, .to-b-mp, .to-b-verify {
+.to-b-start, .to-b-mp {
   font-weight: 700;
   border: none;
   transition: filter 0.16s ease, transform 0.1s ease, box-shadow 0.16s ease;
@@ -224,14 +224,16 @@ canvas {
   background: linear-gradient(180deg, #5fe6ff, var(--neon-cyan));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
+/* Secondary action: keep the base .to-btn (dark, sober) look, just a subtle
+   purple accent so it reads as "on-chain" without competing with the two
+   primary play buttons. */
 .to-b-verify {
-  color: #150a2c;
-  background: linear-gradient(180deg, #c8a4ff, #a78bfa);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #d6c8ff;
+  border-color: rgba(167, 139, 250, 0.4);
 }
 .to-b-start:hover { background: linear-gradient(180deg, #3dffa0, var(--neon-green)); color: #04130b; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
 .to-b-mp:hover { background: linear-gradient(180deg, #5fe6ff, var(--neon-cyan)); color: #04141a; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
-.to-b-verify:hover { background: linear-gradient(180deg, #c8a4ff, #a78bfa); color: #150a2c; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
+.to-b-verify:hover { background: #1e1a2c; border-color: #a78bfa; color: #fff; }
 .to-b-start:focus-visible, .to-b-mp:focus-visible, .to-b-verify:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 .to-chain {
   border-color: #a78bfa;
