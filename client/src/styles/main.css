@@ -381,6 +381,7 @@ canvas {
   transition: background 0.16s ease, border-color 0.16s ease;
 }
 .vp-tx:hover { background: #1b1b26; border-color: rgba(167, 139, 250, 0.45); }
+.vp-kind { color: #c8a4ff; font-weight: 700; }
 
 /* In-game live tx feed (corner) — moves/bombs streaming on-chain */
 #live-tx {

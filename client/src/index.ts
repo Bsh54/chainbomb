@@ -84,7 +84,7 @@ verifyEl.innerHTML = `
   <div class="vp-modal">
     <button class="vp-close" id="vp-close" aria-label="Close">✕</button>
     <div class="vp-title">ON-CHAIN VERIFICATION</div>
-    <div class="vp-head"><span class="vp-dot"></span> <b id="vp-count">0</b> transactions this session</div>
+    <div class="vp-head"><span class="vp-dot"></span> <b id="vp-count">0</b> recent on-chain transactions</div>
     <a class="vp-btn" id="vp-program" target="_blank" rel="noopener"><span class="vp-btn-txt">View the game program on Solana</span><span class="vp-arrow">↗</span></a>
     <a class="vp-btn" id="vp-account" target="_blank" rel="noopener"><span class="vp-btn-txt">View the game account on Solana</span><span class="vp-arrow">↗</span></a>
     <div class="vp-sub">Recent moves &amp; bombs — click any to open the real transaction</div>
@@ -105,7 +105,9 @@ async function loadVerifyHistory(): Promise<void> {
   // Refresh the account link to the CURRENT match's PDA (it changes per match).
   (verifyEl.querySelector('#vp-account') as HTMLAnchorElement).href = addrUrl(chain.gamePDA.toBase58());
   feedEl.innerHTML = '<div class="vp-empty">Loading recent on-chain activity…</div>';
-  const rows = await chain.recentSignatures(10);
+  // Rich history: each row resolves the action (MOVE/BOMB/tick), the player and
+  // their role (YOU / PLAYER / BOT) straight from the account — not just a sig.
+  const rows = await chain.recentActions(30);
   feedEl.innerHTML = '';
   if (!rows.length) {
     feedEl.innerHTML = '<div class="vp-empty">No transactions yet — play a match first.</div>';
@@ -113,12 +115,19 @@ async function loadVerifyHistory(): Promise<void> {
   }
   countEl.textContent = String(rows.length);
   for (const r of rows) {
+    const who =
+      r.role === 'SYSTEM'
+        ? 'SYSTEM'
+        : `${chain.nameFor(r.color) || 'P' + (r.color + 1)} · ${r.role}`;
     const a = document.createElement('a');
     a.className = 'vp-tx';
     a.target = '_blank';
     a.rel = 'noopener';
     a.href = erTxUrl(r.sig);
-    a.innerHTML = `<span class="vp-btn-txt">${r.failed ? '✗' : '✓'} ${r.sig.slice(0, 8)}…${r.sig.slice(-6)}</span><span class="vp-arrow">↗</span>`;
+    a.innerHTML =
+      `<span class="vp-btn-txt">${r.failed ? '✗' : '✓'} ` +
+      `<b class="vp-kind">${r.kind}</b> · ${who} · ${r.sig.slice(0, 4)}…${r.sig.slice(-4)}` +
+      `</span><span class="vp-arrow">↗</span>`;
     feedEl.appendChild(a);
   }
 }
