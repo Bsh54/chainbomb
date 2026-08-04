@@ -1,6 +1,10 @@
 # CHAINBOMB
 
-A fully on-chain Bomberman on Solana. Classic 15×13 grid, up to 4 players, last one standing wins — except the game logic runs inside a Solana program instead of a game server. Every move, bomb and explosion is a transaction, made real-time and gasless with **MagicBlock Ephemeral Rollups**: the board account is delegated to a rollup, the match runs there at real-time speed, then the final state is committed back to devnet.
+A fully on-chain Bomberman on Solana — and the first title built on a reusable, real-time, provably-fair multiplayer **on-chain game engine**.
+
+Classic 15×13 grid, up to 4 players, last one standing wins — except the game logic runs inside a Solana program instead of a game server, so the program is the referee and nobody can cheat. Every move, bomb and explosion is a transaction, made real-time and gasless with **MagicBlock Ephemeral Rollups**: each match account is delegated to a rollup, the match runs there at real-time speed, then the final state is committed back to devnet, fully verifiable.
+
+**Bomberman is just the first game on it.** The engine underneath is game-agnostic — per-match PDA isolation (unlimited concurrent matches), session-key signing for gasless inputs, the delegate → real-time play → `commit_and_undelegate` lifecycle, and client-side prediction over on-chain state. Swap the rules and the same engine powers any real-time on-chain game, with stakes, tournaments and a verifiable match history built in.
 
 **Program ID (devnet):** `5trVxcUHFxajdaawgs2EYCaMGfgC982v9VP8iZx88sWZ`
 
